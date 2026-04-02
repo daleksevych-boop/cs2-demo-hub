@@ -1,0 +1,18 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        background: '#0F1117',
+        card: '#1A1D27',
+        accent: '#F6A623',
+        'accent-hover': '#E09510',
+        surface: '#252836',
+        border: '#2E3248',
+        'text-muted': '#8B8FA8',
+      },
+    },
+  },
+  plugins: [],
+};
