@@ -29,6 +29,7 @@ export interface Match {
   };
   demoAvailable: boolean;
   demoUrl: string;
+  shareCode?: string;
 }
 
 export async function getMe(): Promise<User> {
