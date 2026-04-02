@@ -1,0 +1,35 @@
+name: Close duplicate PRs
+
+on:
+  push:
+    branches:
+      - copilot/close-duplicates-pr-2-3
+
+jobs:
+  comment-duplicates:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Comment on PR #2
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 2,
+              body: 'Closing as duplicate of #1 which has been merged.'
+            });
+
+      - name: Comment on PR #3
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 3,
+              body: 'Closing as duplicate of #1 which has been merged.'
+            });
