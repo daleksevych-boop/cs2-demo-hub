@@ -88,7 +88,7 @@ export default function MatchCard({ match }: MatchCardProps) {
         </div>
 
         {/* Download button */}
-        {match.demoAvailable ? (
+        {match.demoAvailable && match.demoUrl ? (
           <a
             href={match.demoUrl}
             download
@@ -101,7 +101,7 @@ export default function MatchCard({ match }: MatchCardProps) {
             disabled
             className="block w-full text-center bg-cs2-border text-cs2-muted font-semibold py-2 rounded-lg text-sm cursor-not-allowed"
           >
-            Demo Not Available
+            No demo available
           </button>
         )}
       </div>

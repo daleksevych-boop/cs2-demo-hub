@@ -34,8 +34,8 @@ const MOCK_MATCHES: Match[] = [
     result: 'win',
     score: { team: 13, enemy: 7 },
     stats: { kills: 24, deaths: 14, assists: 5, headshots: 12, hsPct: 50, adr: 87.3, rating: 1.42 },
-    demoAvailable: true,
-    demoUrl: 'https://example.com/demo1.dem',
+    demoAvailable: false,
+    demoUrl: '',
   },
   {
     matchId: 'MATCH_002',
@@ -45,8 +45,8 @@ const MOCK_MATCHES: Match[] = [
     result: 'loss',
     score: { team: 11, enemy: 13 },
     stats: { kills: 18, deaths: 19, assists: 7, headshots: 8, hsPct: 44, adr: 72.1, rating: 1.05 },
-    demoAvailable: true,
-    demoUrl: 'https://example.com/demo2.dem',
+    demoAvailable: false,
+    demoUrl: '',
   },
   {
     matchId: 'MATCH_003',
@@ -67,8 +67,8 @@ const MOCK_MATCHES: Match[] = [
     result: 'win',
     score: { team: 13, enemy: 11 },
     stats: { kills: 29, deaths: 18, assists: 6, headshots: 15, hsPct: 52, adr: 95.2, rating: 1.58 },
-    demoAvailable: true,
-    demoUrl: 'https://example.com/demo4.dem',
+    demoAvailable: false,
+    demoUrl: '',
   },
   {
     matchId: 'MATCH_005',
@@ -78,8 +78,8 @@ const MOCK_MATCHES: Match[] = [
     result: 'loss',
     score: { team: 8, enemy: 13 },
     stats: { kills: 14, deaths: 20, assists: 4, headshots: 6, hsPct: 43, adr: 60.8, rating: 0.88 },
-    demoAvailable: true,
-    demoUrl: 'https://example.com/demo5.dem',
+    demoAvailable: false,
+    demoUrl: '',
   },
   {
     matchId: 'MATCH_006',
@@ -100,8 +100,8 @@ const MOCK_MATCHES: Match[] = [
     result: 'win',
     score: { team: 13, enemy: 5 },
     stats: { kills: 32, deaths: 12, assists: 9, headshots: 18, hsPct: 56, adr: 102.4, rating: 1.75 },
-    demoAvailable: true,
-    demoUrl: 'https://example.com/demo7.dem',
+    demoAvailable: false,
+    demoUrl: '',
   },
   {
     matchId: 'MATCH_008',
@@ -111,8 +111,8 @@ const MOCK_MATCHES: Match[] = [
     result: 'loss',
     score: { team: 10, enemy: 13 },
     stats: { kills: 16, deaths: 18, assists: 5, headshots: 7, hsPct: 44, adr: 68.9, rating: 0.97 },
-    demoAvailable: true,
-    demoUrl: 'https://example.com/demo8.dem',
+    demoAvailable: false,
+    demoUrl: '',
   },
 ];
 
