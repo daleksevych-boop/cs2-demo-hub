@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Match } from '../api/client';
 
 interface MatchCardProps {
@@ -37,6 +38,17 @@ const RESULT_STYLES = {
 
 export default function MatchCard({ match }: MatchCardProps) {
   const gradient = MAP_COLORS[match.map] || 'from-gray-700 to-gray-800';
+  const [copied, setCopied] = useState(false);
+
+  function handleCopyCode() {
+    if (!match.shareCode) return;
+    navigator.clipboard.writeText(match.shareCode).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      setCopied(false);
+    });
+  }
 
   return (
     <div className="bg-cs2-card border border-cs2-border rounded-xl overflow-hidden hover:border-cs2-accent/50 transition-all">
@@ -87,7 +99,7 @@ export default function MatchCard({ match }: MatchCardProps) {
           </div>
         </div>
 
-        {/* Download button */}
+        {/* Demo / Share Code section */}
         {match.demoAvailable && match.demoUrl ? (
           <a
             href={match.demoUrl}
@@ -96,6 +108,18 @@ export default function MatchCard({ match }: MatchCardProps) {
           >
             ⬇ Download Demo
           </a>
+        ) : match.shareCode ? (
+          <div className="space-y-2">
+            <button
+              onClick={handleCopyCode}
+              className="block w-full text-center bg-cs2-accent hover:bg-cs2-accent-hover text-white font-semibold py-2 rounded-lg transition-colors text-sm"
+            >
+              {copied ? '✅ Copied!' : '📋 Copy Share Code'}
+            </button>
+            <p className="text-cs2-muted text-xs text-center leading-snug">
+              CS2: Main Menu → Your Matches → Watch → Enter Code
+            </p>
+          </div>
         ) : (
           <button
             disabled
