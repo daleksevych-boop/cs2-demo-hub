@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
+import axios from 'axios';
 import { requireAuth } from '../middleware/requireAuth';
 import { getRecentMatches } from '../services/steamService';
 import { decodeMatchShareCode, InvalidShareCode } from 'csgo-sharecode';
@@ -39,12 +40,50 @@ router.get('/', matchesLimiter, requireAuth, async (req: Request, res: Response)
   }
 });
 
-router.get('/:shareCode/demo-url', demoUrlLimiter, requireAuth, (req: Request, res: Response) => {
+router.get('/:shareCode/demo-url', demoUrlLimiter, requireAuth, async (req: Request, res: Response) => {
   try {
     const { shareCode } = req.params;
     const { matchId, reservationId } = decodeMatchShareCode(shareCode);
-    const demoUrl = `https://replay101.valve.net/730/${matchId}_${reservationId}.dem.bz2`;
-    res.redirect(demoUrl);
+    const filename = `cs2_demo_${matchId}.dem.bz2`;
+
+    const replayServers = [101, 102, 103, 104, 105];
+    let lastError: unknown;
+
+    for (const serverNum of replayServers) {
+      const demoUrl = `http://replay${serverNum}.valve.net/730/${matchId}_${reservationId}.dem.bz2`;
+      try {
+        const response = await axios({
+          method: 'GET',
+          url: demoUrl,
+          responseType: 'stream',
+          timeout: 10000,
+        });
+
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Type', 'application/octet-stream');
+
+        if (response.headers['content-length']) {
+          res.setHeader('Content-Length', response.headers['content-length']);
+        }
+
+        response.data.on('error', (streamErr: Error) => {
+          console.error(`Stream error from replay${serverNum}.valve.net for shareCode ${req.params.shareCode}:`, streamErr);
+          if (!res.headersSent) {
+            res.status(500).json({ error: 'Failed to stream demo file' });
+          } else {
+            res.destroy();
+          }
+        });
+
+        response.data.pipe(res);
+        return;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    console.error(`All replay servers (101-105) failed for shareCode ${req.params.shareCode}:`, lastError);
+    res.status(404).json({ error: 'Demo not available' });
   } catch (err) {
     if (err instanceof InvalidShareCode) {
       res.status(400).json({ error: 'Invalid share code' });

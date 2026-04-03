@@ -90,7 +90,7 @@ export default function MatchCard({ match }: MatchCardProps) {
         {/* Demo / Share Code section */}
         {match.shareCode ? (
           <button
-            onClick={() => window.open(`/api/matches/${match.shareCode}/demo-url`, '_blank')}
+            onClick={() => { window.location.href = `/api/matches/${match.shareCode}/demo-url`; }}
             className="block w-full text-center bg-cs2-accent hover:bg-cs2-accent-hover text-white font-semibold py-2 rounded-lg transition-colors text-sm"
           >
             ⬇ Download Demo
